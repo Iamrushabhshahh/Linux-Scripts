@@ -5,7 +5,7 @@
 # E-mail : rushabh@kodekloud.com
 
 echo "===================================="
-echo "         Docker Pull Test           " 
+echo "         Docker Pull Test           "
 echo "         -Iamrushabhshahh-          "
 echo "===================================="
 
@@ -16,11 +16,11 @@ echo "===================================="
 #   Message to print
 #######################################
 
-function print_color () {
+function print_color() {
     case $1 in
-        "green") COLOR="\033[92m";; 
-        "red") COLOR="\033[31m";;
-        "*") COLOR="\033[0m";; # default color
+    "green") COLOR="\033[92m" ;;
+    "red") COLOR="\033[31m" ;;
+    "*") COLOR="\033[0m" ;; # default color
     esac
     echo -e "${COLOR} $2 \033[0m"
 }
@@ -32,13 +32,18 @@ function print_color () {
 #######################################
 
 function pull_image() {
-    print_color "green" " \n\n Pulling $1 Image and Running it \n\n"
-    kubectl run $1 --image=$1 
+    if kubectl get pods | grep -q "$1"; then
+        print_color "green" "Pod $1 exists. Deleting it..."
+        kubectl delete pod "$1"
+        print_color "green" "Pod $1 has been deleted."
+    else
+        echo "green" "Pod $1 does not exist. \n Pulling $1 Image and Running it \n"
+    fi
+    kubectl run $1 --image=$1
     sleep 10
-    print_color "green" " \n\n"
+    print_color "green" " \n"
     kubectl get pod
 }
-
 
 # Check Host Entries for Docker Registry | Check this for all Enviornments
 echo -e "\nChecking Host Entries for Docker Registry \n"
@@ -62,7 +67,7 @@ else
 
     kubectl get all
     echo -e "\n"
-    systemctl status containerd.service > /dev/null 
+    systemctl status containerd.service >/dev/null
     if [ $? -eq 0 ]; then
         print_color "green" "\n Containerd Service is Running\n"
         grep "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
@@ -70,7 +75,7 @@ else
             print_color "green" "\n Config File Entry Exists at /etc/containerd/config.toml \n"
             pull_image nginx
         fi
-    else  #This is for K3s Cluster
+    else #This is for K3s Cluster
         print_color "red" "\n\n\n Containerd Service is Not Running | Not Exist | Not Installed \n \n \n "
         print_color "green" "Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
         ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d | grep "docker-registry-mirror.kodekloud.com"
@@ -84,6 +89,6 @@ else
 fi
 
 print_color "green" "\n\n\n\n\n===================================="
-print_color "green" "     Docker Pull Test Completed     " 
+print_color "green" "     Docker Pull Test Completed     "
 print_color "green" "         -Iamrushabhshahh-          "
 print_color "green" "===================================="
