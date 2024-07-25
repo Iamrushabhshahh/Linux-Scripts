@@ -61,7 +61,7 @@ else
 
     kubectl get all
     echo "\n"
-    systemctl status containerd.service
+    systemctl status containerd.service > /dev/null 
     if [ $? -eq 0 ]; then
         print_color "green" "\n Containerd Service is Running\n\n"
         grep -Fx "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
