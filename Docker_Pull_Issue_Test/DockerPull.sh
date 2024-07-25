@@ -32,7 +32,7 @@ function print_color () {
 #######################################
 
 function pull_image() {
-    print_color "green" " \n\n Image Running Nginx Pod \n\n"
+    print_color "green" " \n\n Pulling $1 Image and Running it \n\n"
     kubectl run $1 --image=$1 
     sleep 10
     print_color "green" " \n\n"
@@ -41,7 +41,7 @@ function pull_image() {
 
 
 # Check Host Entries for Docker Registry | Check this for all Enviornments
-echo "\n\n Checking Host Entries for Docker Registry \n\n"
+echo -e "\n\n Checking Host Entries for Docker Registry \n\n"
 grep -Fx "10.0.0.6 docker-registry-mirror.kodekloud.com" /etc/hosts
 if [ $? -eq 0 ]; then
     print_color "green" " \n Hosts File Entry Exists \n"
@@ -61,7 +61,7 @@ else
     print_color "green" "\n Checking For Kubernetes \n"
 
     kubectl get all
-    echo "\n"
+    echo -e "\n"
     systemctl status containerd.service > /dev/null 
     if [ $? -eq 0 ]; then
         print_color "green" "\n Containerd Service is Running\n\n"
