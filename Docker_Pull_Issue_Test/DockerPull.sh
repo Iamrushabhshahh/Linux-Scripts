@@ -77,4 +77,7 @@ else
     fi
 fi
 
-echo "==================================== \n Docker Pull Test Completed \n -Iamrushabhshahh- \n===================================="
+print_color "green" "===================================="
+print_color "green" "     Docker Pull Test Completed     " 
+print_color "green" "         -Iamrushabhshahh-          "
+print_color "green" "===================================="
