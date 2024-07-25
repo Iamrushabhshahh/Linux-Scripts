@@ -37,7 +37,7 @@ function pull_image() {
         kubectl delete pod "$1"
         print_color "green" "Pod $1 has been deleted."
     else
-        echo "green" "Pod $1 does not exist. \n Pulling $1 Image and Running it \n"
+        print_color "green" "Pod $1 does not exist. \n Pulling $1 Image and Running it \n"
     fi
     kubectl run $1 --image=$1
     sleep 10
