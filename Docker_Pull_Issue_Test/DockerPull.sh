@@ -49,7 +49,7 @@ else
 fi
 
 # CHECK DOCKER
-echo "which docker: $(which docker)"
+which docker
 if [ $? -eq 0 ]; then
     print_color "green" " \n Docker is Installed $(docker --version) \n"
     cat /etc/docker/daemon.json | grep "docker-registry-mirror.kodekloud.com"
