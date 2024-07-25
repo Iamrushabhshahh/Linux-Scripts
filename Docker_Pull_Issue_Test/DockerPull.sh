@@ -64,7 +64,7 @@ else
     systemctl status containerd.service > /dev/null 
     if [ $? -eq 0 ]; then
         print_color "green" "\n Containerd Service is Running\n\n"
-        grep -Fx "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
+        grep "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
         if [ $? -eq 0 ]; then
             print_color "green" "Config File Entry Exists at /etc/containerd/config.toml"
             cat /etc/containerd/config.toml 
@@ -74,7 +74,7 @@ else
     else  #This is for K3s Cluster
         print_color "red" "\n\n\n Containerd Service is Not Running | Not Exist | Not Installed \n \n \n "
         print_color "green" "Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
-        ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d | grep -Fx "docker-registry-mirror.kodekloud.com"
+        ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d | grep "docker-registry-mirror.kodekloud.com"
         if [ $? -eq 0 ]; then
             print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d
