@@ -47,7 +47,7 @@ function pull_image() {
 
 # Check Host Entries for Docker Registry | Check this for all Enviornments
 echo -e "\nChecking Host Entries for Docker Registry \n"
-grep -Fx "10.0.0.6 docker-registry-mirror.kodekloud.com" /etc/hosts
+grep "10.0.0.6 docker-registry-mirror.kodekloud.com" /etc/hosts
 if [ $? -eq 0 ]; then
     print_color "green" " \n Hosts File Entry Exists \n"
 else
@@ -74,6 +74,8 @@ else
         if [ $? -eq 0 ]; then
             print_color "green" "\n Config File Entry Exists at /etc/containerd/config.toml \n"
             pull_image nginx
+        else
+            print_color "red" "\n Config.toml Doesn't have the docker repository link \n \n"
         fi
     else #This is for K3s Cluster
         print_color "red" "\n\n\n Containerd Service is Not Running | Not Exist | Not Installed \n \n \n "
@@ -84,6 +86,8 @@ else
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d
             echo -e "\n"
             pull_image nginx
+        else
+            print_color "red" "Certs.d Doesn't have the docker repository link \n \n"
         fi
     fi
 fi
