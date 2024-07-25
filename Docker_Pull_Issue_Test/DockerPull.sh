@@ -41,7 +41,7 @@ function pull_image() {
 
 
 # Check Host Entries for Docker Registry | Check this for all Enviornments
-echo -e "\n\n Checking Host Entries for Docker Registry \n\n"
+echo -e "\nChecking Host Entries for Docker Registry \n"
 grep -Fx "10.0.0.6 docker-registry-mirror.kodekloud.com" /etc/hosts
 if [ $? -eq 0 ]; then
     print_color "green" " \n Hosts File Entry Exists \n"
@@ -64,12 +64,12 @@ else
     echo -e "\n"
     systemctl status containerd.service > /dev/null 
     if [ $? -eq 0 ]; then
-        print_color "green" "\n Containerd Service is Running\n\n"
+        print_color "green" "\n Containerd Service is Running\n"
         grep "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
         if [ $? -eq 0 ]; then
             print_color "green" "Config File Entry Exists at /etc/containerd/config.toml"
+            echo -e "\n"
             cat /etc/containerd/config.toml 
-            print_color "green" "\n\n\n Pulling Image Running Nginx Pod\n\n\n"
             pull_image nginx
         fi
     else  #This is for K3s Cluster
@@ -79,7 +79,7 @@ else
         if [ $? -eq 0 ]; then
             print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d
-            print_color "green" "\n\n\n Pulling Image Running Nginx Pod\n\n\n"
+            echo -e "\n"
             pull_image nginx
         fi
     fi
