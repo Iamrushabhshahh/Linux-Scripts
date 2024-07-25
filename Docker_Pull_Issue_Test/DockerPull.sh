@@ -16,7 +16,7 @@ echo "===================================="
 #   Message to print
 #######################################
 
-print_color () {
+function print_color () {
     case $1 in
         "green") COLOR="\033[92m";; 
         "red") COLOR="\033[31m";;
@@ -31,7 +31,7 @@ print_color () {
 #   Image name. eg: nginx, redis
 #######################################
 
-pull_image() {
+function pull_image() {
     print_color "green" " \n\n Image Running Nginx Pod \n\n"
     kubectl run $1 --image=$1 
     sleep 10
