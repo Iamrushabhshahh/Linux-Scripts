@@ -32,10 +32,10 @@ print_color () {
 #######################################
 
 pull_image() {
-    echo "\n\n\n Pulling Image Running Nginx Pod\n\n\n"
+    print_color "green" " \n\n Image Running Nginx Pod \n\n"
     kubectl run $1 --image=$1 
     sleep 10
-    echo "\n \n"
+    print_color "green" " \n\n"
     kubectl get pod
 }
 
