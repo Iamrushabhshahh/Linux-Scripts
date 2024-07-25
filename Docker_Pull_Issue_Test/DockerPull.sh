@@ -67,9 +67,7 @@ else
         print_color "green" "\n Containerd Service is Running\n"
         grep "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
         if [ $? -eq 0 ]; then
-            print_color "green" "Config File Entry Exists at /etc/containerd/config.toml"
-            echo -e "\n"
-            cat /etc/containerd/config.toml 
+            print_color "green" "\n Config File Entry Exists at /etc/containerd/config.toml \n"
             pull_image nginx
         fi
     else  #This is for K3s Cluster
