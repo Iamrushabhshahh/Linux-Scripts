@@ -76,6 +76,7 @@ else
             pull_image nginx
         else
             print_color "red" "\n Config.toml Doesn't have the docker repository link \n \n"
+            pull_image nginx
         fi
     else #This is for K3s Cluster
         print_color "red" "\n\n\n Containerd Service is Not Running | Not Exist | Not Installed \n \n \n "
