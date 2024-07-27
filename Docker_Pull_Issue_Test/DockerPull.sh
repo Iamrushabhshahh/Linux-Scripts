@@ -33,11 +33,11 @@ function print_color() {
 
 function pull_image() {
     if kubectl get pods | grep -q "$1"; then
-        print_color "green" "Pod $1 exists. Deleting it..."
+        print_color "green" " \n Pod $1 exists. Deleting it..."
         kubectl delete pod "$1"
-        print_color "green" "Pod $1 has been deleted."
+        print_color "green" "\n Pod $1 has been deleted."
     else
-        print_color "green" "Pod $1 does not exist. \n Pulling $1 Image and Running it \n"
+        print_color "green" "\n Pod $1 does not exist. \n Pulling $1 Image and Running it \n"
     fi
     kubectl run $1 --image=$1
     sleep 10
@@ -62,34 +62,40 @@ if [ $? -eq 0 ]; then
     print_color "green" " \n Checking For Docker Pull \n\n"
     docker run docker/whalesay cowsay KodeKloud #Chcecking Docker pull
 else
-    print_color "red" "\n Docker is Not Installed \n"
+    print_color "red" "\n Docker is Not Installed"
     print_color "green" "\n Checking For Kubernetes \n"
-
+    # CHECK KUBERNETES CLUSTER
     kubectl get all
-    echo -e "\n"
-    systemctl status containerd.service >/dev/null
+    systemctl status containerd.service >/dev/null # Check if containerd is running
     if [ $? -eq 0 ]; then
-        print_color "green" "\n Containerd Service is Running\n"
+        print_color "green" "\n Containerd Service is Running"
         grep "docker-registry-mirror.kodekloud.com" /etc/containerd/config.toml
         if [ $? -eq 0 ]; then
-            print_color "green" "\n Config File Entry Exists at /etc/containerd/config.toml \n"
+            print_color "green" "\n Config File Entry Exists at /etc/containerd/config.toml"
             pull_image nginx
         else
             print_color "red" "\n Config.toml Doesn't have the docker repository link \n"
             pull_image nginx
         fi
-    else #This is for K3s Cluster
-        print_color "red" "\nContainerd Service is Not Running | Not Exist | Not Installed \n"
-        print_color "green" "Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
+    else
+        print_color "red" "\nContainerd Service is Not Running | This Might K3s Node "
+        print_color "green" "\n Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
         ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d | grep "docker-registry-mirror.kodekloud.com"
         if [ $? -eq 0 ]; then
-            print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
+            print_color "green" "\n Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/certs.d \n"
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d
             pull_image nginx
         else
-            print_color "red" "Certs.d Doesn't have the docker repository link \n \n"
-            ls -l /var/lib/rancher/k3s/agent/etc/containerd/
-            
+            print_color "red" "Certs.d Doesn't have the docker repository link \n"
+            ls -l /var/lib/rancher/k3s/agent/etc/containerd/config.toml | grep "docker-registry-mirror.kodekloud.com"
+            if [ $? -eq 0 ]; then
+                print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/config.toml"
+                pull_image nginx
+            else
+                print_color "red" "Config.toml Doesn't have the docker repository link \n"
+                ls -l /var/lib/rancher/k3s/agent/etc/containerd/
+                pull_image nginx
+            fi
         fi
     fi
 fi
