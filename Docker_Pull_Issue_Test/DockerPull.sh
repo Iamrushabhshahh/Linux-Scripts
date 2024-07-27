@@ -57,7 +57,7 @@ fi
 # CHECK DOCKER
 which docker
 if [ $? -eq 0 ]; then
-    print_color "green" " \n Docker is Installed $(docker --version)"
+    print_color "green" " \n Docker is Installed $(docker --version) \n"
     cat /etc/docker/daemon.json | grep "docker-registry-mirror.kodekloud.com"
     if [ $? -eq 0 ]; then
         print_color "green" " \n Config File Entry Exists at /etc/docker/daemon.json"
