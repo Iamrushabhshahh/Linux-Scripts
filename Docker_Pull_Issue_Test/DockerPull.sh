@@ -87,7 +87,7 @@ else
             pull_image nginx
         else
             print_color "red" "\n Certs.d Doesn't have the docker repository link \n"
-            ls -l /var/lib/rancher/k3s/agent/etc/containerd/config.toml | grep "docker-registry-mirror.kodekloud.com"
+            cat /var/lib/rancher/k3s/agent/etc/containerd/config.toml | grep "docker-registry-mirror.kodekloud.com"
             if [ $? -eq 0 ]; then
                 print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/config.toml"
                 pull_image nginx
