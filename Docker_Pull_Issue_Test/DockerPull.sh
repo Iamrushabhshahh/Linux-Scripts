@@ -59,8 +59,14 @@ which docker
 if [ $? -eq 0 ]; then
     print_color "green" " \n Docker is Installed $(docker --version)"
     cat /etc/docker/daemon.json | grep "docker-registry-mirror.kodekloud.com"
-    print_color "green" " \n Checking For Docker Pull"
-    docker run docker/whalesay cowsay KodeKloud #Chcecking Docker pull
+    if [ $? -eq 0 ]; then
+        print_color "green" " \n Config File Entry Exists at /etc/docker/daemon.json"
+        print_color "green" " \n Checking For Docker Pull"
+        docker run docker/whalesay cowsay KodeKloud #Chcecking Docker pull
+    else
+        print_color "red" " \n Config File Doesn't have the docker repository link \n"
+        cat /etc/docker/daemon.json
+    fi
 else
     print_color "red" "\n Docker is Not Installed"
     print_color "green" "\n Checking For Kubernetes"
