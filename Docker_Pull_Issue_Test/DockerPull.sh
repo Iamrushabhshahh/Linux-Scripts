@@ -63,7 +63,7 @@ if [ $? -eq 0 ]; then
         print_color "green" " \n Config File Entry Exists at /etc/docker/daemon.json"
         print_color "green" " \n Checking For Docker Pull"
         # docker run docker/whalesay KodeKloud #Chcecking Docker pull
-        docker pull redis nginx alpine busybox httpd gitea circleci/alpine circleci/ubuntu 
+        docker pull redis  
     else
         print_color "red" " \n Config File Doesn't have the docker repository link \n"
         cat /etc/docker/daemon.json
