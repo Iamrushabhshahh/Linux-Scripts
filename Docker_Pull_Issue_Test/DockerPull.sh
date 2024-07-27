@@ -57,13 +57,13 @@ fi
 # CHECK DOCKER
 which docker
 if [ $? -eq 0 ]; then
-    print_color "green" " \n Docker is Installed $(docker --version) \n"
+    print_color "green" " \n Docker is Installed $(docker --version)"
     cat /etc/docker/daemon.json | grep "docker-registry-mirror.kodekloud.com"
-    print_color "green" " \n Checking For Docker Pull \n\n"
+    print_color "green" " \n Checking For Docker Pull"
     docker run docker/whalesay cowsay KodeKloud #Chcecking Docker pull
 else
     print_color "red" "\n Docker is Not Installed"
-    print_color "green" "\n Checking For Kubernetes \n"
+    print_color "green" "\n Checking For Kubernetes"
     # CHECK KUBERNETES CLUSTER
     kubectl get all
     systemctl status containerd.service >/dev/null # Check if containerd is running
@@ -79,14 +79,14 @@ else
         fi
     else
         print_color "red" "\nContainerd Service is Not Running | This Might K3s Node "
-        print_color "green" "\n Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
+        print_color "green" "\n Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d \n"
         ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d | grep "docker-registry-mirror.kodekloud.com"
         if [ $? -eq 0 ]; then
             print_color "green" "\n Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/certs.d \n"
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d
             pull_image nginx
         else
-            print_color "red" "Certs.d Doesn't have the docker repository link \n"
+            print_color "red" "\n Certs.d Doesn't have the docker repository link \n"
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/config.toml | grep "docker-registry-mirror.kodekloud.com"
             if [ $? -eq 0 ]; then
                 print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/config.toml"
@@ -100,7 +100,7 @@ else
     fi
 fi
 
-print_color "green" "\n\n\n\n\n===================================="
+print_color "green" "\n===================================="
 print_color "green" "     Docker Pull Test Completed     "
 print_color "green" "         -Iamrushabhshahh-          "
 print_color "green" "===================================="
