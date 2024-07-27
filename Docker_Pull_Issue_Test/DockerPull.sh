@@ -75,20 +75,21 @@ else
             print_color "green" "\n Config File Entry Exists at /etc/containerd/config.toml \n"
             pull_image nginx
         else
-            print_color "red" "\n Config.toml Doesn't have the docker repository link \n \n"
+            print_color "red" "\n Config.toml Doesn't have the docker repository link \n"
             pull_image nginx
         fi
     else #This is for K3s Cluster
-        print_color "red" "\n\n\n Containerd Service is Not Running | Not Exist | Not Installed \n \n \n "
+        print_color "red" "\nContainerd Service is Not Running | Not Exist | Not Installed \n"
         print_color "green" "Checking in /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
         ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d | grep "docker-registry-mirror.kodekloud.com"
         if [ $? -eq 0 ]; then
             print_color "green" "Config File Entry Exists at /var/lib/rancher/k3s/agent/etc/containerd/certs.d"
             ls -l /var/lib/rancher/k3s/agent/etc/containerd/certs.d
-            echo -e "\n"
             pull_image nginx
         else
             print_color "red" "Certs.d Doesn't have the docker repository link \n \n"
+            ls -l /var/lib/rancher/k3s/agent/etc/containerd/
+            
         fi
     fi
 fi
