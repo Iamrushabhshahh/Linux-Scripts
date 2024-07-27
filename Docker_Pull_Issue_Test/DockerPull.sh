@@ -46,7 +46,7 @@ function pull_image() {
 }
 
 # Check Host Entries for Docker Registry | Check this for all Enviornments
-echo -e "\nChecking Host Entries for Docker Registry \n"
+print_color "green" "\n Checking Host Entries for Docker Registry \n"
 grep "10.0.0.6 docker-registry-mirror.kodekloud.com" /etc/hosts
 if [ $? -eq 0 ]; then
     print_color "green" " \n Hosts File Entry Exists \n"
