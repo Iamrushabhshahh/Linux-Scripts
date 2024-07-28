@@ -107,6 +107,12 @@ else
     fi
 fi
 
+print_color "green" "\n Rate Limit Check From Docker \n"
+TOKEN=$(curl "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
+print_color "green" "Below is the Count \n"
+curl --head -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest | grep -E "ratelimit-limit|ratelimit-remaining|docker-ratelimit-source"
+
+
 print_color "green" "\n===================================="
 print_color "green" "     Docker Pull Test Completed     "
 print_color "green" "         -Iamrushabhshahh-          "
