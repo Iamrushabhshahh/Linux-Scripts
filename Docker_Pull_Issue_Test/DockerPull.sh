@@ -43,7 +43,10 @@ function pull_image() {
         print_color "green" "\n Pod $1 does not exist."
     fi
     print_color "green" "Pulling $1 Image and Running it \n"
-    kubectl run $1 --image=$1
+
+    # Ensure it always makes a call to the remote registry
+    kubectl run $1 --image=$1 --image-pull-policy Always
+
     # We don't guess how long it takes a pod to be ready. We ask API server :-)
     if kubectl wait pod $1 --for condition=Ready --timeout 30s
     then
