@@ -170,6 +170,7 @@ else
 fi
 
 print_color "green" "\n Rate Limit Check From Docker \n"
+check_jq_installed
 TOKEN=$(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
 curl -Is -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest >rate.tmp
 echo "- Limit: $(cat rate.tmp | awk '/ratelimit-limit:/ { print $2 }' | cut -d ';' -f 1)"
