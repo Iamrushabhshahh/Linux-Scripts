@@ -79,3 +79,5 @@ function main() {
         print_color "green" "Docker is running"
     fi
 }
+
+main    
