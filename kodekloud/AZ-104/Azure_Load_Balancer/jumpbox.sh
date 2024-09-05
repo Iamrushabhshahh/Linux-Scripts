@@ -16,7 +16,7 @@ for i in {0..1}
 do
     j=$(($i + 4))
     ip="10.0.2.$j"
-    sshpass -p 'C0ntr0lplan3Pa$$wd' \
+    sshpass -p 'AzureCloudPa$$wd' \
     ssh -o StrictHostKeyChecking=no kk-root@$ip bash -c  \
     "'export VAR=$i
 printenv | grep VAR
